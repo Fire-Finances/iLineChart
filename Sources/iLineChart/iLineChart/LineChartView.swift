@@ -150,13 +150,13 @@ struct LineChartView: View {
                                 if ((self.displayChartStats)) {
                                     if (self.showIndicatorDot) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue)) (\(self.internalRate!)%)")
+                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.currentValue))")
                                         }
                                     } else if (self.rawData.last != nil) {
                                         if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!)) (\(self.internalRate!)%)").font(self.priceFont)
+                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
                                         } else {
                                             Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
                                         }
