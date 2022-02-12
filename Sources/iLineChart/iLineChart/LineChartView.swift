@@ -135,9 +135,35 @@ struct LineChartView: View {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
                         VStack(alignment: .leading, spacing: 0){
                             if (self.title != nil) {
-                                Text(self.title!)
-                                    .font(self.titleFont)
-                                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                // Text(self.title!)
+                                //     .font(self.titleFont)
+                                //     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                if (self.showIndicatorDot) {
+                                    if (self.internalRate != nil) {
+                                        Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                                        .font(self.titleFont)
+                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    } else {
+                                        Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                                        .font(self.titleFont)
+                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    }
+                                } else if (self.rawData.last != nil) {
+                                    if (self.internalRate != nil) {
+                                        // Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
+                                        Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                                        .font(self.titleFont)
+                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    } else {
+                                        Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                                        .font(self.titleFont)
+                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    }
+                                } else if (self.internalRate != nil) {
+                                    Text("(\(self.internalRate!)%)")
+                                } else {
+                                    Text("nil")
+                                }
                             }
                             
                             if (self.legend != nil){
@@ -146,27 +172,27 @@ struct LineChartView: View {
                                     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor :self.style.legendTextColor)
                             }
                             
-                            HStack {
-                                if ((self.displayChartStats)) {
-                                    if (self.showIndicatorDot) {
-                                        if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
-                                        } else {
-                                            Text("\(String(format: self.valueSpecifier, self.currentValue))")
-                                        }
-                                    } else if (self.rawData.last != nil) {
-                                        if (self.internalRate != nil) {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
-                                        } else {
-                                            Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
-                                        }
-                                    } else if (self.internalRate != nil) {
-                                        Text("(\(self.internalRate!)%)")
-                                    } else {
-                                        Text("nil")
-                                    }
-                                }
-                            }.font(self.priceFont).foregroundColor(self.style.numbersColor).padding(.top)
+                            // HStack {
+                            //     if ((self.displayChartStats)) {
+                            //         if (self.showIndicatorDot) {
+                            //             if (self.internalRate != nil) {
+                            //                 Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                            //             } else {
+                            //                 Text("\(String(format: self.valueSpecifier, self.currentValue))")
+                            //             }
+                            //         } else if (self.rawData.last != nil) {
+                            //             if (self.internalRate != nil) {
+                            //                 Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
+                            //             } else {
+                            //                 Text("\(String(format: self.valueSpecifier, self.rawData.last!))")
+                            //             }
+                            //         } else if (self.internalRate != nil) {
+                            //             Text("(\(self.internalRate!)%)")
+                            //         } else {
+                            //             Text("nil")
+                            //         }
+                            //     }
+                            // }.font(self.priceFont).foregroundColor(self.style.numbersColor).padding(.top)
                         }
                         .transition(.opacity)
                         .animation(.easeIn(duration: 0.1))
