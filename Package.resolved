@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "iColor",
-        "repositoryURL": "https://github.com/iSwiftUIHome/iColor.git",
+        "repositoryURL": "https://github.com/Fire-Finances/iColor.git",
         "state": {
           "branch": null,
-          "revision": "3c2ae81be776ba4b26a0ca223f819c4d7676b5d4",
-          "version": "0.1.1"
+          "revision": "2443681ba99877d8224dee7291e21642835273ef",
+          "version": "0.1.2"
         }
       }
     ]
