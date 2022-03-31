@@ -71,7 +71,7 @@ struct LineChartView: View {
                 subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                 priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                 fullScreen: Bool = false,
-                logoImageURL: String? = ""
+                logoImageURL: String = ""
                 ) {
         
         self.rawData = data
@@ -103,7 +103,7 @@ struct LineChartView: View {
         
         self.edgesIgnored = fullScreen ? .all : .bottom
         
-        self.logoImageURL = logoImageURL!
+        self.logoImageURL = logoImageURL
     }
     
     private var internalRate: Int? {
