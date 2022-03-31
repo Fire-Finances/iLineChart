@@ -25,6 +25,7 @@ public struct iLineChart: View {
     public var subtitleFont: Font
     public var priceFont: Font
     public var fullScreen: Bool
+    public var logoImageURL: String?
     
     private var chartStyle: ChartStyle = Styles.lineChartStyleOne
     private var edgesIgnored: Edge.Set
@@ -51,7 +52,8 @@ public struct iLineChart: View {
                  subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                  dataFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                  fullScreen: Bool = false,
-                 floatingPointNumberFormat: String = "%.1f"
+                 floatingPointNumberFormat: String = "%.1f",
+                 logoImageURL: String? = nil
                  ) {
         
         
@@ -70,6 +72,7 @@ public struct iLineChart: View {
         self.titleFont = titleFont
         self.priceFont = dataFont
         self.fullScreen = fullScreen
+        self.logoImageURL = logoImageURL
         
         if fullScreen {
             self.edgesIgnored = .all
@@ -98,7 +101,7 @@ public struct iLineChart: View {
     
     
     public var body: some View {
-        LineChartView(data: self.data, title: self.title, legend: self.subtitle, style: self.chartStyle,  valueSpecifier: self.floatingPointNumberFormat, cursorColor: self.cursorColor, curvedLines: self.curvedLines, displayChartStats: self.displayChartStats, minWidth: self.minWidth, minHeight: self.minHeight, maxWidth: self.maxWidth, maxHeight: maxHeight, titleFont: self.titleFont, subtitleFont: self.subtitleFont, priceFont: self.priceFont, fullScreen: self.fullScreen)
+        LineChartView(data: self.data, title: self.title, legend: self.subtitle, style: self.chartStyle,  valueSpecifier: self.floatingPointNumberFormat, cursorColor: self.cursorColor, curvedLines: self.curvedLines, displayChartStats: self.displayChartStats, minWidth: self.minWidth, minHeight: self.minHeight, maxWidth: self.maxWidth, maxHeight: maxHeight, titleFont: self.titleFont, subtitleFont: self.subtitleFont, priceFont: self.priceFont, fullScreen: self.fullScreen, logoImageURL: self.logoImageURL)
             
     }
 }

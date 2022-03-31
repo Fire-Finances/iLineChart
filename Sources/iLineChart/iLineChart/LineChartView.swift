@@ -50,7 +50,7 @@ struct LineChartView: View {
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
     
-    private var logoImageURL: String
+    public var logoImageURL: String?
     
     init(data: [Double],
                 title: String? = nil,
@@ -71,7 +71,7 @@ struct LineChartView: View {
                 subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                 priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
                 fullScreen: Bool = false,
-                logoImageURL: String = ""
+                logoImageURL: String? = nil
                 ) {
         
         self.rawData = data
@@ -179,10 +179,10 @@ struct LineChartView: View {
                                     }
                                 }
                                 Spacer()
-                                if !logoImageURL.isEmpty {
+                                if logoImageURL != nil && !logoImageURL!.isEmpty {
                                     
                                     if #available(iOS 15.0, *) {
-                                        AsyncImage(url: URL(string: logoImageURL)) { image in
+                                        AsyncImage(url: URL(string: logoImageURL!)) { image in
                                             image.resizable().scaledToFit().frame(height:50)
                                         }placeholder: {
                                             ProgressView()
