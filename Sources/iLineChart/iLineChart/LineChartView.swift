@@ -195,9 +195,6 @@ struct LineChartView: View {
                                 
                             }.padding(.trailing)
                             
-                            
-                            
-                            
                             // HStack {
                             //     if ((self.displayChartStats)) {
                             //         if (self.showIndicatorDot) {
