@@ -50,6 +50,8 @@ struct LineChartView: View {
     var frame = CGSize(width: 180, height: 120)
     private var rateValue: Int?
     
+    private var logoImageURL: String
+    
     init(data: [Double],
                 title: String? = nil,
                 legend: String? = nil,
@@ -68,7 +70,8 @@ struct LineChartView: View {
                 titleFont: Font = .system(size: 30, weight: .regular, design: .rounded),
                 subtitleFont: Font = .system(size: 14, weight: .light, design: .rounded),
                 priceFont: Font = .system(size: 16, weight: .bold, design: .monospaced),
-                fullScreen: Bool = false
+                fullScreen: Bool = false,
+                logoImageURL: String? = ""
                 ) {
         
         self.rawData = data
@@ -99,6 +102,8 @@ struct LineChartView: View {
         self.minWidth = minWidth
         
         self.edgesIgnored = fullScreen ? .all : .bottom
+        
+        self.logoImageURL = logoImageURL!
     }
     
     private var internalRate: Int? {
@@ -131,46 +136,67 @@ struct LineChartView: View {
                 }
                 
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     if ((self.title != nil) || (self.legend != nil) || (self.displayChartStats)) {
                         VStack(alignment: .leading, spacing: 0){
-                            if (self.title != nil) {
-                                // Text(self.title!)
-                                //     .font(self.titleFont)
-                                //     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
-                                if (self.showIndicatorDot) {
-                                    if (self.internalRate != nil) {
-                                        Text("\(String(self.currentValue.toCurrencyValue()))")
-                                        .font(self.titleFont)
-                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
-                                    } else {
-                                        Text("\(String(self.currentValue.toCurrencyValue()))")
-                                        .font(self.titleFont)
-                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                            HStack {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    if (self.title != nil) {
+                                        // Text(self.title!)
+                                        //     .font(self.titleFont)
+                                        //     .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                        if (self.showIndicatorDot) {
+                                            if (self.internalRate != nil) {
+                                                Text("\(String(self.currentValue.toCurrencyValue()))")
+                                                .font(self.titleFont)
+                                                .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                            } else {
+                                                Text("\(String(self.currentValue.toCurrencyValue()))")
+                                                .font(self.titleFont)
+                                                .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                            }
+                                        } else if (self.rawData.last != nil) {
+                                            if (self.internalRate != nil) {
+                                                // Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
+                                                Text("\(String(self.rawData.last!.toCurrencyValue()))")
+                                                .font(self.titleFont)
+                                                .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                            } else {
+                                                Text("\(String(self.rawData.last!.toCurrencyValue()))")
+                                                .font(self.titleFont)
+                                                .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                            }
+                                        } else if (self.internalRate != nil) {
+                                            Text("(\(self.internalRate!)%)")
+                                        } else {
+                                            Text("nil")
+                                        }
                                     }
-                                } else if (self.rawData.last != nil) {
-                                    if (self.internalRate != nil) {
-                                        // Text("\(String(format: self.valueSpecifier, self.rawData.last!))").font(self.priceFont)
-                                        Text("\(String(self.rawData.last!.toCurrencyValue()))")
-                                        .font(self.titleFont)
-                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
-                                    } else {
-                                        Text("\(String(self.rawData.last!.toCurrencyValue()))")
-                                        .font(self.titleFont)
-                                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.textColor : self.style.textColor)
+                                    if (self.legend != nil){
+                                        Text(self.legend!)
+                                            .font(self.subtitleFont)
+                                            .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor :self.style.legendTextColor)
                                     }
-                                } else if (self.internalRate != nil) {
-                                    Text("(\(self.internalRate!)%)")
-                                } else {
-                                    Text("nil")
                                 }
-                            }
+                                Spacer()
+                                if !logoImageURL.isEmpty {
+                                    
+                                    if #available(iOS 15.0, *) {
+                                        AsyncImage(url: URL(string: logoImageURL)) { image in
+                                            image.resizable().scaledToFit().frame(height:50)
+                                        }placeholder: {
+                                            ProgressView()
+                                        }
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
+                                }
+                                
+                                
+                            }.padding(.trailing)
                             
-                            if (self.legend != nil){
-                                Text(self.legend!)
-                                    .font(self.subtitleFont)
-                                    .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor :self.style.legendTextColor)
-                            }
+                            
+                            
                             
                             // HStack {
                             //     if ((self.displayChartStats)) {
@@ -262,7 +288,7 @@ struct LineChartView: View {
 struct WidgetView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Line chart", legend: "Basic")
+            LineChartView(data: [8,23,54,32,12,37,7,23,43], title: "Line chart", legend: "Basic", logoImageURL: "https://firebasestorage.googleapis.com/v0/b/fire-aza.appspot.com/o/companyLogos%2Fvmware.png?alt=media&token=cc0f3db3-5eed-43fe-93ab-c1bfe2d5c657")
                 .environment(\.colorScheme, .light)
             
             LineChartView(data: [282.502, 284.495, 283.51, 285.019, 285.197, 286.118, 288.737, 288.455, 289.391, 287.691, 285.878, 286.46, 286.252, 284.652, 284.129, 284.188], title: "Line chart", legend: "Basic")
