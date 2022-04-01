@@ -183,7 +183,7 @@ struct LineChartView: View {
                                     
                                     if #available(iOS 15.0, *) {
                                         AsyncImage(url: URL(string: logoImageURL!)) { image in
-                                            image.resizable().scaledToFit().frame(height:50)
+                                            image.resizable().scaledToFit().frame(height:35)
                                         }placeholder: {
                                             ProgressView()
                                         }
